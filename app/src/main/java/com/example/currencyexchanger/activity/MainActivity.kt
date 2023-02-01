@@ -1,21 +1,52 @@
 package com.example.currencyexchanger.activity
 
+import android.graphics.Color
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.util.Log
-import com.example.currencyexchanger.R
+import androidx.activity.viewModels
+import androidx.core.view.isVisible
+import androidx.lifecycle.lifecycleScope
+import com.example.currencyexchanger.databinding.ActivityMainBinding
+import com.example.currencyexchanger.presentation.MainViewModel
 import dagger.hilt.android.AndroidEntryPoint
-import javax.inject.Inject
 
 @AndroidEntryPoint
 class MainActivity : AppCompatActivity() {
+    private lateinit var binding: ActivityMainBinding
 
-    @Inject
-    lateinit var testString: String
+    private val viewModel: MainViewModel by viewModels()
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        binding = ActivityMainBinding.inflate(layoutInflater)
+        setContentView(binding.root)
 
-        Log.d("MainActivity", "Test String from MainActivity: $testString")
+        binding.btnConvert.setOnClickListener {
+            viewModel.convert(
+                binding.etFrom.text.toString(),
+                binding.spFromCurrency.selectedItem.toString(),
+                binding.spToCurrency.selectedItem.toString(),
+            )
+        }
+
+        lifecycleScope.launchWhenStarted {
+            viewModel.conversion.collect { event ->
+                when(event) {
+                    is MainViewModel.CurrencyEvent.Success -> {
+                        binding.progressBar.isVisible = false
+                        binding.tvResult.setTextColor(Color.BLACK)
+                        binding.tvResult.text = event.result
+                    }
+                    is MainViewModel.CurrencyEvent.Failure -> {
+                        binding.progressBar.isVisible = false
+                        binding.tvResult.setTextColor(Color.RED)
+                        binding.tvResult.text = event.error
+                    }
+                    is MainViewModel.CurrencyEvent.Loading -> {
+                        binding.progressBar.isVisible = true
+                    }
+                    else -> Unit
+                }
+            }
+        }
     }
 }
