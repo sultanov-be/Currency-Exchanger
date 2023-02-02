@@ -1,5 +1,6 @@
 package com.example.currencyexchanger.presentation
 
+import android.widget.Toast
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -8,6 +9,7 @@ import com.example.currencyexchanger.repository.MainRepository
 import com.example.currencyexchanger.utils.DispatcherProvider
 import com.example.currencyexchanger.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
@@ -50,7 +52,7 @@ class MainViewModel @Inject constructor(
                     if(rate == null) {
                         _conversion.value = CurrencyEvent.Failure("Unexpected error")
                     } else {
-                        val convertedCurrency = (fromAmount * rate * 100).roundToInt() / 100
+                        val convertedCurrency = (fromAmount * rate * 100) / 100
                         _conversion.value = CurrencyEvent.Success(
                             "$fromAmount $fromCurrency = $convertedCurrency $toCurrency"
                         )
