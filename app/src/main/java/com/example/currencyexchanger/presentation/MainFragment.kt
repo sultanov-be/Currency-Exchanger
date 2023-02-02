@@ -5,8 +5,9 @@ import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -21,40 +22,60 @@ class MainFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
+    ): View {
         binding = FragmentMainBinding.inflate(layoutInflater)
 
-        binding.btnConvert.setOnClickListener {
-            viewModel.convert(
-                binding.etFrom.text.toString(),
-                binding.spFromCurrency.selectedItem.toString(),
-                binding.spToCurrency.selectedItem.toString(),
-            )
-            Toast.makeText(context, binding.spFromCurrency.selectedItem.toString(), Toast.LENGTH_SHORT).show()
-        }
+        with(binding) {
 
+            mainLayout.visibility = INVISIBLE
+            inputTextFrom.setText("1")
+            viewModel.convert("1", "USD", "RUB")
+
+            convertBtn.setOnClickListener {
+                viewModel.convert(
+                    inputTextFrom.text.toString(),
+                    currencyFrom.text.toString(),
+                    currencyTo.text.toString()
+                    )
+            }
+
+            lifecycleScopeObserver()
+        }
+        return binding.root
+    }
+
+    private fun lifecycleScopeObserver() = with(binding) {
         lifecycleScope.launchWhenStarted {
             viewModel.conversion.collect { event ->
                 when (event) {
                     is MainViewModel.CurrencyEvent.Success -> {
-                        binding.progressBar.isVisible = false
-                        binding.etTo.setTextColor(Color.BLACK)
-                        binding.etTo.setText(event.result)
+                        loadingBar(false)
+                        progressBar.isVisible = false
+                        inputTextTo.setTextColor(Color.BLACK)
+                        inputTextTo.setText(event.result)
                     }
                     is MainViewModel.CurrencyEvent.Failure -> {
                         binding.progressBar.isVisible = false
-                        binding.etTo.setTextColor(Color.RED)
-                        binding.etFrom.setText(event.error)
+                        inputTextTo.setTextColor(Color.RED)
+                        inputTextTo.setText(event.error)
                     }
                     is MainViewModel.CurrencyEvent.Loading -> {
-                        binding.progressBar.isVisible = true
+                        loadingBar(true)
                     }
                     else -> Unit
                 }
             }
         }
+    }
 
-        return binding.root
+    private fun loadingBar(isLoading: Boolean) = with(binding) {
+        if (isLoading) {
+            progressBar.visibility = VISIBLE
+            mainLayout.visibility = INVISIBLE
+        } else {
+            mainLayout.visibility = VISIBLE
+            progressBar.visibility = INVISIBLE
+        }
     }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {

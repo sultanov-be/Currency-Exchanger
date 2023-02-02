@@ -7,6 +7,8 @@
     <string name="convert">Convert</string>
     <string name="sample_currency">RUB</string>
     <string name="sample_num">1</string>
+    <string name="rub">RUB</string>
+    <string name="usd">USD</string>
     <string-array name="currency_codes">
         <item>RUB</item>
         <item>AED</item>
