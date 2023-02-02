@@ -31,8 +31,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="@string/to"
-        app:layout_constraintStart_toStartOf="@+id/spToCurrency"
-        app:layout_constraintTop_toTopOf="@+id/guideline" />
+        app:layout_constraintBottom_toTopOf="@+id/spToCurrency"
+        app:layout_constraintStart_toStartOf="@+id/spToCurrency" />
 
     <com.google.android.material.textfield.TextInputLayout
         android:id="@+id/tilFrom"
@@ -41,6 +41,7 @@
         android:layout_height="wrap_content"
         android:hint="@string/amount"
         android:layout_marginEnd="16dp"
+        android:layout_marginStart="16dp"
         app:layout_constraintBottom_toBottomOf="@+id/spFromCurrency"
         app:layout_constraintEnd_toStartOf="@+id/spFromCurrency"
         app:layout_constraintStart_toStartOf="parent"
@@ -65,41 +66,51 @@
         android:id="@+id/spFromCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
-        android:layout_marginEnd="16dp"
         android:entries="@array/currency_codes"
-        app:layout_constraintEnd_toStartOf="@+id/spToCurrency"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="@id/tilFrom"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/tvFrom" />
 
     <Spinner
         android:id="@+id/spToCurrency"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="15dp"
         android:entries="@array/currency_codes"
+        android:padding="15dp"
+        app:layout_constraintBottom_toBottomOf="@+id/tilTo"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/tvTo" />
+        app:layout_constraintTop_toTopOf="@+id/tilTo" />
 
-    <Button
+    <com.google.android.material.button.MaterialButton
         android:id="@+id/btnConvert"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Convert"
+        android:text="@string/convert"
         android:layout_marginTop="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/spToCurrency" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tilTo" />
 
-    <TextView
-        android:id="@+id/tvResult"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/tilTo"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox.Dense"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
+        android:hint="@string/amount"
         android:layout_marginEnd="16dp"
-        android:textColor="@color/black"
-        app:layout_constraintBottom_toBottomOf="@+id/btnConvert"
-        app:layout_constraintEnd_toStartOf="@+id/btnConvert"
+        android:layout_margin="16dp"
+        app:layout_constraintEnd_toStartOf="@+id/spFromCurrency"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="@+id/btnConvert"
-        tools:text="10 EUR = 15.0 USD" />
+        app:layout_constraintTop_toBottomOf="@+id/tilFrom">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/etTo"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:inputType="numberDecimal" />
+
+    </com.google.android.material.textfield.TextInputLayout>
 
     <ProgressBar
         android:id="@+id/progressBar"

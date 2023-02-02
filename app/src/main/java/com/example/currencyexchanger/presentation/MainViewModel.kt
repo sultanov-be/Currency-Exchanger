@@ -51,7 +51,7 @@ class MainViewModel @Inject constructor(
                     } else {
                         val convertedCurrency = (fromAmount * rate * 100) / 100
                         _conversion.value = CurrencyEvent.Success(
-                            "$fromAmount $fromCurrency = $convertedCurrency $toCurrency"
+                            "$convertedCurrency"
                         )
                     }
                 }

@@ -6,6 +6,7 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -24,13 +25,13 @@ class MainFragment : Fragment() {
     ): View? {
         binding = FragmentMainBinding.inflate(layoutInflater)
 
-
         binding.btnConvert.setOnClickListener {
             viewModel.convert(
                 binding.etFrom.text.toString(),
                 binding.spFromCurrency.selectedItem.toString(),
                 binding.spToCurrency.selectedItem.toString(),
             )
+            Toast.makeText(context, binding.spFromCurrency.selectedItem.toString(), Toast.LENGTH_SHORT).show()
         }
 
         lifecycleScope.launchWhenStarted {
@@ -38,13 +39,13 @@ class MainFragment : Fragment() {
                 when (event) {
                     is MainViewModel.CurrencyEvent.Success -> {
                         binding.progressBar.isVisible = false
-                        binding.tvResult.setTextColor(Color.BLACK)
-                        binding.tvResult.text = event.result
+                        binding.etTo.setTextColor(Color.BLACK)
+                        binding.etTo.setText(event.result)
                     }
                     is MainViewModel.CurrencyEvent.Failure -> {
                         binding.progressBar.isVisible = false
-                        binding.tvResult.setTextColor(Color.RED)
-                        binding.tvResult.text = event.error
+                        binding.etTo.setTextColor(Color.RED)
+                        binding.etFrom.setText(event.error)
                     }
                     is MainViewModel.CurrencyEvent.Loading -> {
                         binding.progressBar.isVisible = true
