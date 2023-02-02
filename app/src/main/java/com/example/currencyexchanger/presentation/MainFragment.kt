@@ -1,6 +1,5 @@
 package com.example.currencyexchanger.presentation
 
-import android.graphics.Color
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -103,10 +102,8 @@ class MainFragment : Fragment(), CurrencyClickHandler {
                         loadingBar(false)
                         progressBar.isVisible = false
                         if (!isReverse) {
-                            inputTextTo.setTextColor(Color.BLACK)
                             inputTextTo.setText(event.result)
                         } else {
-                            inputTextFrom.setTextColor(Color.BLACK)
                             inputTextFrom.setText(event.result)
                         }
                         amountTo = inputTextTo.text.toString()
@@ -114,7 +111,6 @@ class MainFragment : Fragment(), CurrencyClickHandler {
                     }
                     is MainViewModel.CurrencyEvent.Failure -> {
                         binding.progressBar.isVisible = false
-                        inputTextTo.setTextColor(Color.RED)
                         inputTextTo.setText(event.error)
                     }
                     is MainViewModel.CurrencyEvent.Loading -> {
