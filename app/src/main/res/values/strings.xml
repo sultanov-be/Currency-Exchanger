@@ -9,6 +9,8 @@
     <string name="sample_num">1</string>
     <string name="rub">RUB</string>
     <string name="usd">USD</string>
+    <string name="currency_pick">Выбор валюты</string>
+    <string name="close">Close</string>
     <string-array name="currency_codes">
         <item>RUB</item>
         <item>AED</item>
