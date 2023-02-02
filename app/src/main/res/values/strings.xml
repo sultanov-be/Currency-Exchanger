@@ -57,4 +57,50 @@
         <item>XDR</item>
         <item>ZAR</item>
     </string-array>
+    <string-array name="currency_names">
+        <item>Российский рубль</item>
+        <item>Дирхам ОАЭ</item>
+        <item>Армянский драм</item>
+        <item>Австралийский доллар</item>
+        <item>Азербайджанский манат</item>
+        <item>Болгарский лев</item>
+        <item>Бразильский реал</item>
+        <item>Белорусский рубль</item>
+        <item>Канадский доллар</item>
+        <item>Швейцарский франк</item>
+        <item>Китайский юань</item>
+        <item>Чешских крон</item>
+        <item>Датская крона</item>
+        <item>Египетский фунт</item>
+        <item>Евро</item>
+        <item>Фунт стерлингов</item>
+        <item>Грузинский лари</item>
+        <item>Гонконгский доллар</item>
+        <item>Венгерский форинт</item>
+        <item>Индонезийский рупий</item>
+        <item>Индийский рупий</item>
+        <item>Японских иен</item>
+        <item>Киргизский сом</item>
+        <item>Вон Республики Корея</item>
+        <item>Казахстанский тенге</item>
+        <item>Молдавский лей</item>
+        <item>Норвежскиq крон</item>
+        <item>Новозеландский доллар</item>
+        <item>Польский злотый</item>
+        <item>Катарский риал</item>
+        <item>Румынский лей</item>
+        <item>Сербский динар</item>
+        <item>Шведскиq крон</item>
+        <item>Сингапурский доллар</item>
+        <item>Таиландский бат</item>
+        <item>Таджикскиq сом</item>
+        <item>Новый туркменский манат</item>
+        <item>Турецкий лир</item>
+        <item>Гривен</item>
+        <item>Доллар США</item>
+        <item>Сум</item>
+        <item>Вьетнамских донгов</item>
+        <item>СДР</item>
+        <item>Южноафриканский рэнд</item>
+    </string-array>
 </resources>

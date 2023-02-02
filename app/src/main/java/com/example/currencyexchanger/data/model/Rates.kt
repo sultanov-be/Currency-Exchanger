@@ -44,5 +44,5 @@ data class Rates(
     val VND: Double,
     val XDR: Double,
     val ZAR: Double,
-    val RUB: Double
+    val RUB: Double,
 )

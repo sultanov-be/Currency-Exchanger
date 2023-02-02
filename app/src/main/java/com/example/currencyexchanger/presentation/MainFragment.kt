@@ -8,14 +8,15 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
+import android.widget.Button
 import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.currencyexchanger.R
 import com.example.currencyexchanger.adapter.CurrencyClickHandler
 import com.example.currencyexchanger.adapter.SheetAdapter
-import com.example.currencyexchanger.data.model.CurrencyResponse
 import com.example.currencyexchanger.databinding.FragmentMainBinding
 import com.example.currencyexchanger.databinding.SheetLayoutBinding
 import com.google.android.material.bottomsheet.BottomSheetDialog
@@ -25,12 +26,20 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainFragment : Fragment(), CurrencyClickHandler {
     private val viewModel by viewModels<MainViewModel>()
     private lateinit var binding: FragmentMainBinding
+    private var isFrom = false
+    private var isTo= false
+    lateinit var listCode: Array<String>
+    lateinit var listName: Array<String>
+    lateinit var dialog: BottomSheetDialog
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View {
         binding = FragmentMainBinding.inflate(layoutInflater)
+
+        listCode = resources.getStringArray(R.array.currency_codes)
+        listName = resources.getStringArray(R.array.currency_names)
 
         with(binding) {
 
@@ -47,7 +56,15 @@ class MainFragment : Fragment(), CurrencyClickHandler {
             }
 
             currencyFrom.setOnClickListener {
-                showDialog()
+                showDialog(listCode, listName)
+                isFrom = true
+                isTo = false
+            }
+
+            currencyTo.setOnClickListener {
+                showDialog(listCode, listName)
+                isFrom = false
+                isTo = true
             }
 
             lifecycleScopeObserver()
@@ -94,10 +111,15 @@ class MainFragment : Fragment(), CurrencyClickHandler {
         }
     }
 
-    private fun showDialog() {
+    private fun showDialog(listCode: Array<String>, listName: Array<String>) {
         val binding = SheetLayoutBinding.inflate(LayoutInflater.from(context))
-        val dialog = BottomSheetDialog(requireContext())
-        val list: List<Pair<String, String>> = listOf(Pair("TEST", "test"))
+        var list: MutableList<Pair<String, String>> = mutableListOf()
+        dialog = BottomSheetDialog(requireContext())
+
+        for (i in listCode.indices) {
+            list.add(Pair(listCode[i], listName[i]))
+        }
+
         val adapter = SheetAdapter(list)
 
         binding.recycler.adapter = adapter
@@ -112,7 +134,13 @@ class MainFragment : Fragment(), CurrencyClickHandler {
         }
     }
 
-    override fun clickedCategory(currency: String) {
-        Toast.makeText(requireContext(), currency, Toast.LENGTH_SHORT).show()
+    override fun clickedCategory(currency: String) = with(binding){
+        if (isFrom && !isTo) {
+            currencyFrom.text = currency
+        }
+        if (isTo && !isFrom) {
+            currencyTo.text = currency
+        }
+        dialog.dismiss()
     }
 }

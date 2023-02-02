@@ -73,7 +73,7 @@
             android:layout_height="80dp"
             android:layout_marginTop="20dp"
             android:contentDescription="@string/convert"
-            android:src="@drawable/ic_exchange"
+            android:src="@drawable/ic_exchange_btn"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="@+id/text_layout_to" />
