@@ -1,6 +1,5 @@
 package com.example.currencyexchanger.presentation
 
-import android.widget.Toast
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -9,12 +8,10 @@ import com.example.currencyexchanger.repository.MainRepository
 import com.example.currencyexchanger.utils.DispatcherProvider
 import com.example.currencyexchanger.utils.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.NonDisposableHandle.parent
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
-import kotlin.math.roundToInt
 
 @HiltViewModel
 class MainViewModel @Inject constructor(
@@ -63,33 +60,48 @@ class MainViewModel @Inject constructor(
     }
 
     private fun getRateForCurrency(currency: String, rates: Rates) = when (currency) {
-        "CAD" -> rates.CAD
-        "HKD" -> rates.HKD
-        "EUR" -> rates.EUR
-        "DKK" -> rates.DKK
-        "HUF" -> rates.HUF
-        "CZK" -> rates.CZK
+        "RUB" -> rates.RUB
+        "AED" -> rates.AED
+        "AMD" -> rates.AMD
         "AUD" -> rates.AUD
-        "RON" -> rates.RON
-        "SEK" -> rates.SEK
+        "AZN" -> rates.AZN
+        "BGN" -> rates.BGN
+        "BRL" -> rates.BRL
+        "BYN" -> rates.BYN
+        "CAD" -> rates.CAD
+        "CHF" -> rates.CHF
+        "CZK" -> rates.CZK
+        "DKK" -> rates.DKK
+        "EGP" -> rates.EGP
+        "EUR" -> rates.EUR
+        "GBP" -> rates.GBP
+        "GEL" -> rates.GEL
+        "HKD" -> rates.HKD
+        "HUF" -> rates.HUF
         "IDR" -> rates.IDR
         "INR" -> rates.INR
-        "BRL" -> rates.BRL
-        "RUB" -> rates.RUB
         "JPY" -> rates.JPY
-        "THB" -> rates.THB
-        "CHF" -> rates.CHF
-        "SGD" -> rates.SGD
-        "PLN" -> rates.PLN
-        "BGN" -> rates.BGN
-        "CNY" -> rates.CNY
+        "KGS" -> rates.KGS
+        "KRW" -> rates.KRW
+        "KZT" -> rates.KZT
+        "MDL" -> rates.MDL
         "NOK" -> rates.NOK
         "NZD" -> rates.NZD
-        "ZAR" -> rates.ZAR
+        "PLN" -> rates.PLN
+        "QAR" -> rates.QAR
+        "RON" -> rates.RON
+        "RSD" -> rates.RSD
+        "SEK" -> rates.SEK
+        "THB" -> rates.THB
+        "TJS" -> rates.TJS
+        "TMT" -> rates.TMT
+        "TRY" -> rates.TRY
+        "UAH" -> rates.UAH
         "USD" -> rates.USD
-        "GBP" -> rates.GBP
-        "KRW" -> rates.KRW
-        "KGS" -> rates.KGS
+        "UZS" -> rates.UZS
+        "VND" -> rates.VND
+        "XDR" -> rates.XDR
+        "ZAR" -> rates.ZAR
         else -> null
     }
 }
