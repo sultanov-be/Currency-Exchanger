@@ -10,7 +10,6 @@ import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
-import com.example.currencyexchanger.R
 import com.example.currencyexchanger.databinding.FragmentMainBinding
 import dagger.hilt.android.AndroidEntryPoint
 
