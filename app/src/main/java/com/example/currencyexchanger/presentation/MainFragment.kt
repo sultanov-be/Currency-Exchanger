@@ -8,8 +8,6 @@ import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.view.ViewGroup
-import android.widget.Button
-import android.widget.Toast
 import androidx.core.view.isVisible
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.lifecycleScope
@@ -28,6 +26,9 @@ class MainFragment : Fragment(), CurrencyClickHandler {
     private lateinit var binding: FragmentMainBinding
     private var isFrom = false
     private var isTo= false
+    private var amountFrom: String = "1"
+    private var isReverse = false
+    private lateinit var amountTo: String
     lateinit var listCode: Array<String>
     lateinit var listName: Array<String>
     lateinit var dialog: BottomSheetDialog
@@ -48,11 +49,28 @@ class MainFragment : Fragment(), CurrencyClickHandler {
             viewModel.convert("1", "USD", "RUB")
 
             convertBtn.setOnClickListener {
-                viewModel.convert(
-                    inputTextFrom.text.toString(),
-                    currencyFrom.text.toString(),
-                    currencyTo.text.toString()
+                if (amountFrom != inputTextFrom.text.toString()) {
+                    viewModel.convert(
+                        inputTextFrom.text.toString(),
+                        currencyFrom.text.toString(),
+                        currencyTo.text.toString()
                     )
+                    isReverse = false
+                } else if (amountTo != inputTextTo.text.toString() && amountFrom == inputTextFrom.text.toString()) {
+                    viewModel.convert(
+                        inputTextTo.text.toString(),
+                        currencyTo.text.toString(),
+                        currencyFrom.text.toString()
+                    )
+                    isReverse = true
+                } else {
+                    viewModel.convert(
+                        inputTextFrom.text.toString(),
+                        currencyFrom.text.toString(),
+                        currencyTo.text.toString()
+                    )
+                    isReverse = false
+                }
             }
 
             currencyFrom.setOnClickListener {
@@ -84,8 +102,15 @@ class MainFragment : Fragment(), CurrencyClickHandler {
                     is MainViewModel.CurrencyEvent.Success -> {
                         loadingBar(false)
                         progressBar.isVisible = false
-                        inputTextTo.setTextColor(Color.BLACK)
-                        inputTextTo.setText(event.result)
+                        if (!isReverse) {
+                            inputTextTo.setTextColor(Color.BLACK)
+                            inputTextTo.setText(event.result)
+                        } else {
+                            inputTextFrom.setTextColor(Color.BLACK)
+                            inputTextFrom.setText(event.result)
+                        }
+                        amountTo = inputTextTo.text.toString()
+                        amountFrom = inputTextFrom.text.toString()
                     }
                     is MainViewModel.CurrencyEvent.Failure -> {
                         binding.progressBar.isVisible = false
@@ -113,7 +138,7 @@ class MainFragment : Fragment(), CurrencyClickHandler {
 
     private fun showDialog(listCode: Array<String>, listName: Array<String>) {
         val binding = SheetLayoutBinding.inflate(LayoutInflater.from(context))
-        var list: MutableList<Pair<String, String>> = mutableListOf()
+        val list: MutableList<Pair<String, String>> = mutableListOf()
         dialog = BottomSheetDialog(requireContext())
 
         for (i in listCode.indices) {

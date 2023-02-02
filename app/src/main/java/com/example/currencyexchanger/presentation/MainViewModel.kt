@@ -52,8 +52,9 @@ class MainViewModel @Inject constructor(
                         _conversion.value = CurrencyEvent.Failure("Unexpected error")
                     } else {
                         val convertedCurrency = (fromAmount * rate * 100) / 100
+                        val formattedCurrency = String.format("%.2f", convertedCurrency)
                         _conversion.value = CurrencyEvent.Success(
-                            "$convertedCurrency"
+                            formattedCurrency
                         )
                     }
                 }
